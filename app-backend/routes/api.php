@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/ping', function () {
     return response('pong');
 });
+
+Route::post('/transactions', [TransactionController::class, 'store']);
+Route::get('/transactions', [TransactionController::class, 'index']);
+Route::get('/transactions/{transaction_id}', [TransactionController::class, 'show']);
