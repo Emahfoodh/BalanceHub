@@ -5,7 +5,7 @@ module.exports = defineConfig({
     apiUrl: 'http://localhost:8000/api',
   },
   e2e: {
-    baseUrl: 'http://localhost:5000',
+    baseUrl: 'http://localhost:4173',
     setupNodeEvents(on, config) {},
     supportFile: false,
   },
