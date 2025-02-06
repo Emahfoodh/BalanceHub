@@ -69,7 +69,7 @@ class AccountManager
             'transaction_id' => $transactionId,
             'account_id' => $accountId,
             'amount' => $amount,
-            'balance' => $accounts[$accountId]['balance'],
+            'balance' => $accounts[$accountId]['balance'] + $amount,
             'created_at' => date('Y-m-d H:i:s')
         ];
 
