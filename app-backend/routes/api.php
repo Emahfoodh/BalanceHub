@@ -28,3 +28,5 @@ Route::get('/ping', function () {
 Route::post('/transactions', [TransactionController::class, 'store']);
 Route::get('/transactions', [TransactionController::class, 'index']);
 Route::get('/transactions/{transaction_id}', [TransactionController::class, 'show']);
+
+Route::get('/accounts/{account_id}', [AccountController::class, 'show']);
