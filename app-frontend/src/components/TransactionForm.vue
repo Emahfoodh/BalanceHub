@@ -30,7 +30,7 @@ export default {
         };
     },
     methods: {
-        submitTransaction() {
+        async submitTransaction() {
             // Validate accountId (ensure it's a valid UUID)
             const uuidRegex =
                 /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -45,17 +45,38 @@ export default {
                 return;
             }
 
-            // Emit the transaction data if valid
-            this.$emit('transaction-submitted', {
-                accountId: this.accountId,
-                amount: Number(this.amount), // Ensure amount is a number
-            });
+            try {
+                const response = await fetch('http://localhost:8000/api/transactions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        account_id: this.accountId,
+                        amount: Number(this.amount), // Ensure amount is a number
+                    }),
+                });
 
-            // Reset form fields
-            this.accountId = '';
-            this.amount = '';
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to submit transaction');
+                }
+
+                const result = await response.json();
+                alert('Transaction submitted successfully');
+
+                // Emit event if needed
+                this.$emit('transaction-submitted', result);
+
+                // Reset form fields
+                this.accountId = '';
+                this.amount = '';
+            } catch (error) {
+                console.error('Transaction submission error:', error);
+                alert(`Error: ${error.message}`);
+            }
         },
-
     },
 };
 </script>

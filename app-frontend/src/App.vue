@@ -25,31 +25,36 @@ export default {
     };
   },
   methods: {
-    addTransaction(transactionData) {
-      // Validate incoming transaction data
-      if (
-        typeof transactionData.accountId !== 'string' ||
-        transactionData.accountId.trim() === '' ||
-        isNaN(transactionData.amount)
-      ) {
-        alert('Invalid transaction data. Account ID must be a valid string, and amount must be a valid number.');
-        return;
-      }
+    async fetchTransactions() {
+      try {
+        const response = await fetch('http://localhost:8000/api/transactions');
+        if (!response.ok) throw new Error('Failed to fetch transactions');
 
-      // Add the transaction to the list
+        const data = await response.json();
+        this.transactions = data.map(transaction => ({
+          transactionId: transaction.transaction_id,
+          accountId: transaction.account_id,
+          amount: transaction.amount,
+          balance: transaction.balance,
+          createdAt: transaction.created_at
+        })).reverse();
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      }
+    },
+    addTransaction(transactionData) {
       const newTransaction = {
-        accountId: transactionData.accountId,
-        amount: Number(transactionData.amount), // Ensure amount is a number
-        balance: this.calculateBalance(transactionData.accountId, transactionData.amount),
+        transactionId: transactionData.transaction_id,
+        accountId: transactionData.account_id,
+        amount: Number(transactionData.amount),
+        balance: transactionData.balance,
+        createdAt: transactionData.created_at
       };
       this.transactions.unshift(newTransaction);
-    },
-    calculateBalance(accountId, amount) {
-      // Find the latest balance for this account
-      const lastTransaction = this.transactions.find(t => t.accountId === accountId);
-      const currentBalance = lastTransaction ? lastTransaction.balance : 0;
-      return currentBalance + Number(amount);
-    },
+    }
   },
+  mounted() {
+    this.fetchTransactions();
+  }
 };
 </script>
