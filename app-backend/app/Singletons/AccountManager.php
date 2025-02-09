@@ -37,7 +37,7 @@ class AccountManager
                 'account_id' => $accountId,
                 'transactions' => []
             ];
-            Cache::put('accounts', $accounts, 60);
+            Cache::put('accounts', $accounts, 14400);
         }
 
         return $this;
@@ -75,7 +75,7 @@ class AccountManager
 
         $accounts[$accountId]['transactions'][$transactionId] = $transaction;
 
-        Cache::put('accounts', $accounts, 60);
+        Cache::put('accounts', $accounts, 14400);
 
         return $transaction;
     }
