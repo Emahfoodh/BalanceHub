@@ -13,7 +13,7 @@ A fullstack financial transaction management application for recording and track
 - Frontend: Vue.js
 - Backend: laravel
 - Styling: Tailwind CSS
-- Testing: Cypress for E2E, Jest for unit tests
+- Testing: Cypress for E2E
 
 ## API Endpoints
 
@@ -73,21 +73,37 @@ npm run test
 ## Project Structure
 
 ```
-balancehub/
-├── backend/
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   └── index.js
-│   └── tests/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── services/
-│   │   └── App.jsx
-│   └── tests/
-└── cypress/
-    └── e2e/
+.
+├── app-backend
+│   ├── app
+│   │   ├── Http
+│   │   │   ├── Controllers
+│   │   │   │   ├── AccountController.php
+│   │   │   │   └── TransactionController.php
+│   │   │   └── Middleware
+│   │   ├── Models
+│   │   └── Providers
+│   ├── config
+│   ├── database
+│   │   ├── migrations
+│   │   └── seeders
+│   ├── routes
+│   │   ├── api.php
+│   │   └── web.php
+│   ├── tests
+│   │   ├── Feature
+│   │   └── Unit
+│   └── storage
+├── app-frontend
+│   ├── public
+│   └── src
+│       ├── assets
+│       ├── components
+│       │   ├── TransactionForm.vue
+│       │   └── TransactionList.vue
+│       └── App.vue
+├── cypress
+│   └── e2e
+└── README.md
 ```
 
